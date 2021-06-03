@@ -37,6 +37,15 @@ const formatter = {
     }
     return seireki.toString() + "年";
   },
+  structure: (val) => {
+    switch (val) {
+      case "ＳＲＣ": return "SRC";
+      case "ＲＣ": return "RC";
+      case "鉄骨造": return "S";
+      case "木造": return "木造";
+      default: return "不明";
+    }
+  },
   renovation: (val) => {
     return val || "不明";
   },

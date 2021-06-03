@@ -21,7 +21,7 @@ const pocData = json.data
     floorPlan: row.FloorPlan,
     area: row.Area,
     buildingYear: formatter.buildingYear(row.BuildingYear),
-    structure: row.Structure,
+    structure: formatter.structure(row.Structure),
     cityPlanning: row.CityPlanning,
     period: row.Period,
     renovation: formatter.renovation(row.Renovation),
