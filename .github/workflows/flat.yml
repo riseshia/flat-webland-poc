@@ -18,6 +18,6 @@ jobs:
       - name: Fetch data
         uses: githubocto/flat@v3
         with:
-          http_url: https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20201&to=20201&area=13
+          http_url: https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20053&to=20204&area=13
           downloaded_filename: data.json
           postprocess: ./postprocess.js
