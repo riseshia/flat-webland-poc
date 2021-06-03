@@ -23,7 +23,6 @@ const pocData = json.data
     period: row.Period,
     renovation: row.Renovation,
   }));
-console.log(pocData)
 
 const newFilename = "data-postprocessed.json";
 await writeJSON(newFilename, pocData) // create a new JSON file with just the Bitcoin price
