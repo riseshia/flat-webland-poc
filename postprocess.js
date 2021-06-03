@@ -1,4 +1,5 @@
-import { readJSON, writeJSON, removeFile } from "https://deno.land/x/flat@0.0.10/mod.ts";
+import { readJSON } from "https://deno.land/x/flat@0.0.10/mod.ts";
+import { writeCSV } from "https://deno.land/x/csv/mod.ts";
 
 // Step 1: Read the downloaded_filename JSON
 const filename = Deno.args[0]; // Same name as downloaded_filename `const filename = 'btc-price.json';`
@@ -9,7 +10,7 @@ if ( json.status !== "OK" ) {
 }
 
 const pocData = json.data
-  .filter(row => (row.Type === "中古マンション等"))
+  .filter(row => (row.Type === "中古マンション等" && row.Purpose === "住宅"))
   .map(row => ({
     prefecture: row.Prefecture,
     municipality: row.Municipality,
@@ -24,5 +25,13 @@ const pocData = json.data
     renovation: row.Renovation,
   }));
 
-const newFilename = "data-postprocessed.json";
-await writeJSON(newFilename, pocData) // create a new JSON file with just the Bitcoin price
+const keys = Object.keys(pocData[0]);
+const csvData = [keys];
+pocData.forEach(row => {
+  const values = keys.map(key => row[key] || '');
+  csvData.push(values);
+});
+
+const f = await Deno.open("data-postprocessed.csv", { write: true, create: true, truncate: true });
+await writeCSV(f, csvData);
+f.close();
