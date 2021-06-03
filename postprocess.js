@@ -1,12 +1,14 @@
 import { readJSON } from "https://deno.land/x/flat@0.0.10/mod.ts";
 import { writeCSV } from "https://deno.land/x/csv/mod.ts";
 
+import formatter from "./formatter.js";
+
 // Step 1: Read the downloaded_filename JSON
 const filename = Deno.args[0]; // Same name as downloaded_filename `const filename = 'btc-price.json';`
 const json = await readJSON(filename);
 
 if ( json.status !== "OK" ) {
-    Deno.exit(1);
+  Deno.exit(1);
 }
 
 const pocData = json.data
@@ -18,15 +20,15 @@ const pocData = json.data
     tradePrice: row.TradePrice,
     floorPlan: row.FloorPlan,
     area: row.Area,
-    buildingYear: row.BuildingYear,
+    buildingYear: formatter.buildingYear(row.BuildingYear),
     structure: row.Structure,
     cityPlanning: row.CityPlanning,
     period: row.Period,
-    renovation: row.Renovation,
+    renovation: formatter.renovation(row.Renovation),
   }));
 
 const keys = Object.keys(pocData[0]);
-const csvData = [keys];
+const csvData = [keys.map(key => (formatter.keyToJa(key)))];
 pocData.forEach(row => {
   const values = keys.map(key => row[key] || '');
   csvData.push(values);
